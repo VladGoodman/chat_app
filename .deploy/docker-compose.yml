@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: app/gateway/Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - ../services/gateway:/var/www/html
+    networks:
+      - local
+
+  chat:
+    container_name: chat
+    build:
+      context: .
+      dockerfile: app/chat/Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - ../services/chat:/var/www/html
+    networks:
+      - local
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - local
+
+networks:
+  local:
+    driver: bridge
