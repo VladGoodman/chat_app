@@ -15,7 +15,6 @@ services:
       - local
 
   chat:
-    container_name: chat
     build:
       context: .
       dockerfile: app/chat/Dockerfile
@@ -38,6 +37,21 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - local
+
+  db:
+    container_name: db-chat
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: "chat"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "pass"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - "5490:5432"
     networks:
       - local
 
