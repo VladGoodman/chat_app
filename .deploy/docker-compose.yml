@@ -1,30 +1,6 @@
 version: '3.8'
 
 services:
-  gateway:
-    container_name: gateway
-    build:
-      context: .
-      dockerfile: app/gateway/Dockerfile
-    restart: unless-stopped
-    tty: true
-    working_dir: /var/www/html
-    volumes:
-      - ../services/gateway:/var/www/html
-    networks:
-      - local
-
-  chat:
-    build:
-      context: .
-      dockerfile: app/chat/Dockerfile
-    restart: unless-stopped
-    tty: true
-    working_dir: /var/www/html
-    volumes:
-      - ../services/chat:/var/www/html
-    networks:
-      - local
 
   rabbitmq:
     container_name: rabbitmq
@@ -52,6 +28,31 @@ services:
       - ./db:/var/lib/postgresql/data
     ports:
       - "5490:5432"
+    networks:
+      - local
+
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: app/gateway/Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - ../services/gateway:/var/www/html
+    networks:
+      - local
+
+  chat:
+    build:
+      context: .
+      dockerfile: app/chat/Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - ../services/chat:/var/www/html
     networks:
       - local
 

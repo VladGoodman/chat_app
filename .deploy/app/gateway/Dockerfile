@@ -25,4 +25,4 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-CMD chown -R www-data:www-data /var/www/html/ && chmod -R 777 /var/www/html/ && php-fpm
+CMD chown -R www-data:www-data /var/www/html/ && chmod -R 777 /var/www/html/ && composer i && php-fpm
